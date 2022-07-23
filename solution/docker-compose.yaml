@@ -1,0 +1,21 @@
+version: "3.7"
+
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    ports:
+      - 9000:9090
+    volumes:
+      - ./prometheus:/root/FOSFOR/appserver/solution/prometheus
+      - prometheus-data:/prometheus
+
+  csv:
+    image: fosfordevops/csvgenerator:latest
+    restart: always
+    expose:
+      - 9393
+    volumes:
+      - /root/FOSFOR/appserver/solution/csvserver/inputFile:/inputdata
+
+    
