@@ -20,3 +20,25 @@ Stop the running container docker stop 64366bfc015a
 Run the container and provide the port mapping docker run -d -i -v /root/FOSFOR/appserver/solution/csvserver/inputFile:/csvserver/inputdata -p 9393:9300 fosfordevops/csvgenerator:latest Stop the container docker stop 8f50ea53c0d0
 
 ENV VAR: docker run -d -i -v /root/FOSFOR/appserver/solution/csvserver/inputFile:/csvserver/inputdata -p 9393:9300 -e CSVSERVER_BORDER='Orange'fosfordevops/csvgenerator:latest
+
+Created prometheus.yml file and alert.yml
+
+Added compose file :
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.22.0
+    ports:
+      - 9000:9090
+    volumes:
+      - ./prometheus:/root/FOSFOR/appserver/solution/prometheus
+  csv:
+    image: fosfordevops/csvgenerator:latest
+    restart: always
+    expose:
+      - 9393
+    volumes:
+      - /root/FOSFOR/appserver/solution/csvserver/inputFile:/csvserver/inputdata
+      
+    Browser:
+    http://localhost:9090
